@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int CountO(const string & a) {
+        return count(a.begin(), a.end(), '1');
+    }
+
+    // Function to count the number of '0's in a string
+    int countZ(const string & a) {
+        return count(a.begin(), a.end(), '0');
+    }
+
+    // Recursive function with memoization to find the maximum number of strings
+    int func(const vector<string>& str, int m, int n, int i, vector<vector<vector<int>>>& dp) {
+        if (i == str.size()) return 0; // Base case: if we've considered all strings
+
+        if (dp[m][n][i] != -1) return dp[m][n][i]; // If the result is already computed, return it
+
+        int countOne = CountO(str[i]); // Count '1's in the current string
+        int countZero = countZ(str[i]); // Count '0's in the current string
+
+        int inc = 0;
+
+        // If the current string can be included
+        if (countZero <= m && countOne <= n) {
+            inc = 1 + func(str, m - countZero, n - countOne, i + 1, dp);
+        }
+
+        // Case where the current string is excluded
+        int exc = func(str, m, n, i + 1, dp);
+
+        // Store the result in dp and return the maximum of including or excluding the current string
+        dp[m][n][i] = max(inc, exc);
+        return dp[m][n][i];
+    }
+
+    // Main function to find the maximum number of strings that can be formed
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        vector<vector<vector<int>>> dp(m + 1, vector<vector<int>>(n + 1, vector<int>(strs.size(), -1)));
+        return func(strs, m, n, 0, dp);
+    }
+};
