@@ -1,0 +1,31 @@
+class Solution {
+public:
+    
+    int solve(vector<int>& coins , int amount , int i , vector<vector<int>>& dp){
+        
+        if(amount == 0)return 0;
+        if(amount < 0 || i == coins.size())return INT_MAX;
+        
+        if(dp[amount][i] != -1)return dp[amount][i];
+        
+        int inc = INT_MAX;
+        if(amount >= coins[i]){
+            int res = solve(coins , amount - coins[i] , i , dp);
+        
+        if(res != INT_MAX)
+            inc = 1 + res;
+        }
+        
+        int exc = solve(coins , amount , i + 1 , dp);
+        
+        return dp[amount][i] = min(exc , inc);
+    }
+    
+    int coinChange(vector<int>& coins, int amount) {
+        
+        vector<vector<int>> dp(amount + 1 , vector<int>(coins.size() + 1 , -1));
+        int res = solve(coins , amount , 0 , dp);
+        return res == INT_MAX ? -1 : res;
+        
+    }
+};
