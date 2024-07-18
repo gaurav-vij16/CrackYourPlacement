@@ -1,0 +1,97 @@
+class Solution {
+public:
+    
+    
+//     int solve(const vector<vector<char>>& mat, int i, int j, int& maxi) {
+//         // Base case: if the indices are out of bounds, return 0
+//         if (i >= mat.size() || j >= mat[0].size())
+//             return 0;
+
+//         // If the value is already computed, return it
+//         if (dp[i][j] != -1)
+//             return dp[i][j];
+
+//         // Recursively calculate the values for the right, down, and diagonal cells
+//         int right = solve(mat, i, j + 1, maxi, dp);
+//         int down = solve(mat, i + 1, j, maxi, dp);
+//         int diag = solve(mat, i + 1, j + 1, maxi, dp);
+
+//         // Initialize the answer for the current cell
+//         int ans = 0;
+
+//         // If the current cell is '1', calculate the size of the square
+//         if (mat[i][j] == '1') {
+//             ans = 1 + min({right, down, diag});
+//             // Update the maximum size of the square found so far
+//             maxi = max(maxi, ans);
+//         }
+
+//         // Store the result in the memoization table
+//         dp[i][j] = ans;
+
+//         return ans;
+//     }
+    
+//     int solveUsingTab(vector<vector<char>>& matrix) {
+//         int m = matrix.size();
+//         int n = matrix[0].size();
+
+//         // Initialize the dp array with 0s
+//         vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+//         int maxSquareLength = 0;
+
+//         for (int i = m - 1; i >= 0; i--) {
+//             for (int j = n - 1; j >= 0; j--) {
+//                 if (matrix[i][j] == '1') {
+//                     int right = dp[i][j + 1];
+//                     int down = dp[i + 1][j];
+//                     int diag = dp[i + 1][j + 1];
+
+//                     dp[i][j] = 1 + min({right, down, diag});
+//                     maxSquareLength = max(maxSquareLength, dp[i][j]);
+//                 } else {
+//                     dp[i][j] = 0;
+//                 }
+//             }
+//         }
+
+//         return maxSquareLength;
+//     }
+    
+    
+    int solveUsingSO(vector<vector<char>>& matrix) {
+        int m = matrix.size();
+        int n = matrix[0].size();
+
+        // Initialize two 1D dp arrays for the current and next rows
+        vector<int> curr(n + 1, 0), next(n + 1, 0);
+
+        int maxSquareLength = 0;  // To keep track of the maximum size of the square
+
+        for (int i = m - 1; i >= 0; i--) {
+            for (int j = n - 1; j >= 0; j--) {
+                if (matrix[i][j] == '1') {
+                    // Calculate the size of the square ending at (i, j)
+                    int right = curr[j + 1];
+                    int down = next[j];
+                    int diag = next[j + 1];
+
+                    curr[j] = 1 + min({right, down, diag});
+                    maxSquareLength = max(maxSquareLength, curr[j]);  // Update the maximum square length
+                } else {
+                    curr[j] = 0;  // Current cell cannot be part of a square
+                }
+            }
+            next = curr;  // Move to the next row
+        }
+
+        return maxSquareLength;
+    }
+    
+    
+
+    int maximalSquare(vector<vector<char>>& matrix) {
+        int maxLength = solveUsingSO(matrix);
+        return maxLength * maxLength;
+    }
+};
