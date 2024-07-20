@@ -1,0 +1,15 @@
+class Solution{
+    public:
+    long long findMinDiff(vector<long long> s, long long n, long long m){
+        sort(s.begin(),s.end());
+        int ss = 0;
+        int f = m - 1;
+        
+        long long ans = LONG_LONG_MAX;
+        
+        while(f < s.size()){
+            ans = min(s[f++] - s[ss++] , ans);
+        }
+        return ans;
+    }   
+};
