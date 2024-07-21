@@ -1,0 +1,30 @@
+class Solution {
+public:
+    
+    int solve(vector<int>& nums , bool buy , int i ,vector<vector<int>>& dp){
+
+        if (i == nums.size()) {
+            return 0;
+        }
+        
+         if(dp[i][buy] != -1)return dp[i][buy];
+
+        // Buy
+        if (buy) {
+            dp[i][buy] = max(-nums[i] + solve(nums, 0, i + 1 , dp), solve(nums, 1, i + 1 , dp));
+        }
+        
+        // Sell
+        else if(!buy ) {
+           dp[i][buy] = max(nums[i] + solve(nums , 1 , i + 1 , dp) , solve(nums , 0 , i + 1 , dp ));
+        }
+
+        return dp[i][buy];
+    }
+
+    int maxProfit(vector<int>& prices) {
+        bool buy = true;
+        vector<vector<int>> dp(prices.size() , vector<int> (2 , -1));
+        return solve(prices  , buy , 0 , dp );
+    }
+};
