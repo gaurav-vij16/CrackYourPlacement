@@ -1,0 +1,23 @@
+class Solution {
+public:
+    
+    int maxScore(vector<int>& arr, int k) {
+        int n = arr.size();
+        int preSum = 0;
+
+        // Calculate the sum of the first k elements
+        for(int i = 0; i < k; ++i) {
+            preSum += arr[i];
+        }
+
+        int ans = preSum;
+
+        // Use a sliding window to calculate the maximum score
+        for(int i = 0; i < k; ++i) {
+            preSum += arr[n - 1 - i] - arr[k - 1 - i];
+            ans = max(ans, preSum);
+        }
+
+        return ans;
+    }
+};
