@@ -1,0 +1,21 @@
+class solution {
+  public:
+  
+  const int mod = 1e9 + 7;
+  
+  long long getNum(Node* head){
+      long long n = 0;
+      while(head){
+          n = (n * 10)% mod + head->data;
+          head = head->next;
+      }
+      return n;
+  }
+  
+    long long multiplyTwoLists(Node *first, Node *second) {
+        long long f = getNum(first);
+        long long s = getNum(second);
+        
+        return (s * f )% mod;
+    }
+};
