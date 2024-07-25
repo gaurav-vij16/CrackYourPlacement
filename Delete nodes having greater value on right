@@ -1,0 +1,38 @@
+Delete nodes having greater value on right
+
+    public:
+    
+    Node* reverse(Node* head){
+        Node* prev = NULL;
+        
+        while(head){
+            Node* next = head->next;
+            head->next = prev;
+            prev = head;
+            head= next;
+        }
+        return prev;
+    }
+    
+    Node *compute(Node *head)
+    {
+        head = reverse(head);
+        
+        Node* temp = head;
+        int maxVal = temp->data;
+        
+        while(temp){
+            while(temp->next && temp->next->data < maxVal){
+                temp->next = temp->next->next;
+            }
+            
+            if(temp->next && temp->next->data >= maxVal){
+                maxVal = temp->next->data;
+            }
+                temp = temp->next;
+        }
+        head = reverse(head);
+        return head;
+    }
+    
+};
