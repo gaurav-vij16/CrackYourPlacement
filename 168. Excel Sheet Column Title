@@ -1,0 +1,15 @@
+class Solution {
+public:
+    std::string convertToTitle(int columnNumber) {
+        std::string s = "";
+
+        while (columnNumber > 0) {
+            int rem = (columnNumber - 1) % 26;
+            s += (rem + 'A');
+            columnNumber = (columnNumber - 1) / 26;
+        }
+
+        std::reverse(s.begin(), s.end());
+        return s;
+    }
+};
