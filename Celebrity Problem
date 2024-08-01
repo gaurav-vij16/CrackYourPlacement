@@ -1,0 +1,32 @@
+int celebrity(vector<vector<int>>& M, int n) {
+        stack<int> st;
+        
+        // Push all candidates to the stack
+        for (int i = 0; i < n; i++) st.push(i);
+        
+        // Determine the potential celebrity
+        while (st.size() > 1) {
+            int top1 = st.top();
+            st.pop();
+            int top2 = st.top();
+            st.pop();
+            
+            // If top1 knows top2, then top1 cannot be a celebrity
+            // If top2 knows top1, then top2 cannot be a celebrity
+            if (M[top1][top2]) st.push(top2);
+            else st.push(top1);
+        }
+        
+        // The potential celebrity
+        int p = st.top();
+        st.pop();
+        
+        // Validate the potential celebrity
+        for (int i = 0; i < n; i++) {
+            if (i != p) {
+                // The celebrity should not know anyone and everyone should know the celebrity
+                if (M[p][i] == 1 || M[i][p] == 0) return -1;
+            }
+        }
+        return p;
+    }
