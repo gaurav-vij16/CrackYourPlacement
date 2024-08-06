@@ -1,0 +1,39 @@
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        
+       ListNode* dummy = new ListNode(-101);
+        ListNode* l = dummy;
+        
+        
+        while(head){
+            if(!head->next || head->val != head->next->val){
+                l->next = head;
+                l = head;
+                head = head->next;
+            }
+            else{
+                int value = head->val;
+                while(head && head->val == value){
+                    head = head->next;
+                }
+            }
+        }
+        
+        
+        l->next = nullptr;
+        
+        ListNode* newHead = dummy->next;
+        
+        delete(dummy);
+        
+        return newHead;
+        
+    }
+};
