@@ -1,0 +1,33 @@
+
+class Solution {
+  public:
+    void rearrangeEvenOdd(Node *head) {\
+        
+        // Your Code here
+        Node* odd = new Node(-1);
+        Node* even = new Node(-1);
+        
+        Node* o = odd;
+        Node* e  = even;
+        
+        int i = 1;
+        
+        while(head){
+            if(i & 1){
+                o->next = head;
+                o = head;
+            }else{
+                e->next = head;
+                e = head;
+            }
+            head = head->next;
+            i++;
+        }
+        e->next = NULL;
+        o->next = even->next;
+        
+        head = odd->next;
+        delete(odd);
+        delete(even);
+    }
+};
