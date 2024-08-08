@@ -1,0 +1,17 @@
+int func(TreeNode* root, int low, int high) {
+        if (root == NULL) return 0;
+
+        int ans = 0;
+        if (root->val >= low && root->val <= high) {
+            ans += root->val;
+        }
+
+        ans += func(root->left, low, high);
+        ans += func(root->right, low, high);
+
+        return ans;
+    }
+
+    int rangeSumBST(TreeNode* root, int low, int high) {
+        return func(root, low, high);
+    }
