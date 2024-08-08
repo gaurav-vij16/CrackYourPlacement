@@ -1,0 +1,13 @@
+string getPre(TreeNode* root){
+        if(root == NULL)return "NULL";
+        
+        return '#' + to_string(root->val) + "," + getPre(root->left) + "," + getPre(root->right);
+    }
+    
+    bool isSubtree(TreeNode* root, TreeNode* subRoot) {
+        string s = getPre(root);
+        string t = getPre(subRoot);
+        
+        return s.find(t) != string::npos;
+        
+    }
